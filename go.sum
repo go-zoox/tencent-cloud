@@ -1,5 +1,9 @@
 github.com/go-zoox/crypto v1.0.0 h1:8grv4kXLxDR3XVBegHmPhPdPddHsbETFgw/swteL4bQ=
 github.com/go-zoox/crypto v1.0.0/go.mod h1:lx/OiIc12tOlhAiNs91vX1OCIxHPOq2NGe/xrVK1XMI=
+github.com/go-zoox/crypto v1.0.1 h1:tQaCvnKQN6BzKlh+Ibz2tTEMrVqwQYQpDNYT2e+7w4w=
+github.com/go-zoox/crypto v1.0.1/go.mod h1:lx/OiIc12tOlhAiNs91vX1OCIxHPOq2NGe/xrVK1XMI=
+github.com/go-zoox/crypto v1.0.2 h1:cBPLE20yrfoXVfi0C0BLKXGdDXhCStLfhEwo7Aq3Q84=
+github.com/go-zoox/crypto v1.0.2/go.mod h1:lx/OiIc12tOlhAiNs91vX1OCIxHPOq2NGe/xrVK1XMI=
 github.com/go-zoox/dotenv v1.0.7 h1:Z1fXQiY0/gk6gQFaA9fAhdqBeqytp+Ob6RuLymfpxAM=
 github.com/go-zoox/dotenv v1.0.7/go.mod h1:N2bXxghq3Zk+lpiOxv+m+0yjnGubVqJGJDR/9jWm3N0=
 github.com/go-zoox/fetch v1.1.2 h1:2XiyCYUT0wv4YpQaArgOwTHNV/7Cj1lYFZp4bmF1KMw=

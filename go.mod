@@ -3,7 +3,7 @@ module github.com/go-zoox/tencent-cloud
 go 1.17
 
 require (
-	github.com/go-zoox/crypto v1.0.0
+	github.com/go-zoox/crypto v1.0.2
 	github.com/go-zoox/dotenv v1.0.7
 	github.com/go-zoox/fetch v1.1.3
 )

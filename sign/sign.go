@@ -1,7 +1,6 @@
 package sign
 
 import (
-	"crypto/sha256"
 	"encoding/json"
 	"fmt"
 	"net/url"
@@ -9,9 +8,8 @@ import (
 	"strings"
 	"time"
 
-	oshmac "crypto/hmac"
-
 	hash "github.com/go-zoox/crypto/hash"
+	"github.com/go-zoox/crypto/hmac"
 )
 
 const SIGN_ALGORITHM = "TC3-HMAC-SHA256"
@@ -131,11 +129,11 @@ func Sign(data *SignConfig) (*SignResult, error) {
 	}
 
 	// @TODO
-	secretDate := hmacsha256("TC3"+data.SecretKey, date)
-	secretService := hmacsha256(secretDate, data.Service)
-	secretSigning := hmacsha256(secretService, "tc3_request")
+	secretDate := hmac.Sha256("TC3"+data.SecretKey, date, "binary")
+	secretService := hmac.Sha256(secretDate, data.Service, "binary")
+	secretSigning := hmac.Sha256(secretService, "tc3_request", "binary")
 
-	signature := fmt.Sprintf("%x", hmacsha256(secretSigning, stringToSign))
+	signature := hmac.Sha256(secretSigning, stringToSign)
 
 	return &SignResult{
 		Signature:       signature,
@@ -144,12 +142,4 @@ func Sign(data *SignConfig) (*SignResult, error) {
 		RequestHeaders:  requestHeaders,
 		Timestamp:       timestampStr,
 	}, nil
-}
-
-// @TODO
-func hmacsha256(key string, s string) string {
-	// return hmac.Sha256(key, s)
-	hashed := oshmac.New(sha256.New, []byte(key))
-	hashed.Write([]byte(s))
-	return string(hashed.Sum(nil))
 }
