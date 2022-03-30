@@ -80,14 +80,57 @@ type Instance struct {
 	}
 }
 
-func (cs *CvmService) DescribeInstances() (*DescribeInstancesResponse, error) {
+type DescribeInstancesConditions struct {
+	Offset int
+	Limit  int
+}
+
+func (cs *CvmService) DescribeInstances(conditions ...*DescribeInstancesConditions) (*DescribeInstancesResponse, error) {
+	var requestQuery map[string]string
+	if len(conditions) > 0 {
+		conditionsX := conditions[0]
+		requestQuery = map[string]string{
+			"Offset": fmt.Sprintf("%d", conditionsX.Offset),
+			"Limit":  fmt.Sprintf("%d", conditionsX.Limit),
+		}
+	}
+
 	requestURI := fmt.Sprintf("https://%s", CVM_HOST)
 	response, err := request.Get(CVM_SERVICE, "DescribeInstances", &request.Config{
-		SecretId:   cs.config.SecretId,
-		SecretKey:  cs.config.SecretKey,
-		Region:     cs.config.Region,
-		RequestURI: requestURI,
+		SecretId:     cs.config.SecretId,
+		SecretKey:    cs.config.SecretKey,
+		Region:       cs.config.Region,
+		RequestURI:   requestURI,
+		RequestQuery: requestQuery,
 	})
+	if err != nil {
+		return nil, err
+	}
+
+	// json, _ := response.JSON()
+	// fmt.Println("response:", json)
+
+	var result = &DescribeInstancesRawResponse{}
+	err = response.Unmarshal(result)
+	if err != nil {
+		return nil, err
+	}
+
+	return &result.Response, nil
+}
+
+func (cs *CvmService) DescribeInstancesPost(conditions map[string]interface{}) (*DescribeInstancesResponse, error) {
+	requestURI := fmt.Sprintf("https://%s", CVM_HOST)
+	response, err := request.Post(
+		CVM_SERVICE,
+		"DescribeInstances",
+		conditions,
+		&request.Config{
+			SecretId:   cs.config.SecretId,
+			SecretKey:  cs.config.SecretKey,
+			Region:     cs.config.Region,
+			RequestURI: requestURI,
+		})
 	if err != nil {
 		return nil, err
 	}

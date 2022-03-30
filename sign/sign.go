@@ -4,6 +4,7 @@ import (
 	"crypto/sha256"
 	"encoding/json"
 	"fmt"
+	"net/url"
 	"sort"
 	"strings"
 	"time"
@@ -44,9 +45,14 @@ type SignResult struct {
 func Sign(data *SignConfig) (*SignResult, error) {
 	canonicalRequestQuery := ""
 	if data.RequestQuery != nil {
+		canonicalRequestQueryUrlValue := url.Values{}
 		for k, v := range data.RequestQuery {
-			canonicalRequestQuery += fmt.Sprintf("%s=%s&", k, v)
+			// canonicalRequestQuery += fmt.Sprintf("%s=%s&", k, v)
+			// canonicalRequestQuerySlice = append(canonicalRequestQuerySlice, fmt.Sprintf("%s=%s", k, v))
+			canonicalRequestQueryUrlValue.Add(k, v)
 		}
+		// canonicalRequestQuery = strings.Join(canonicalRequestQuerySlice, "&")
+		canonicalRequestQuery = canonicalRequestQueryUrlValue.Encode()
 	}
 
 	// @TODO
@@ -102,7 +108,8 @@ func Sign(data *SignConfig) (*SignResult, error) {
 	}, "\n")
 
 	if DEBUG {
-		fmt.Printf("canonicalRequest: %s\n", canonicalRequest)
+		fmt.Println("[SIGN][START]:")
+		fmt.Printf("canonicalRequest:\n%s\n\n", canonicalRequest)
 	}
 
 	date := time.Unix(data.Timestamp, 0).UTC().Format("2006-01-02")
@@ -118,7 +125,9 @@ func Sign(data *SignConfig) (*SignResult, error) {
 	}, "\n")
 
 	if DEBUG {
-		fmt.Printf("stringToSign:\n%s\n", stringToSign)
+		fmt.Printf("stringToSign:\n%s\n\n", stringToSign)
+		fmt.Println("[SIGN][END]")
+		fmt.Println("")
 	}
 
 	// @TODO
