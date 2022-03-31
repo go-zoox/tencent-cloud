@@ -96,7 +96,7 @@ func (cs *CvmService) DescribeInstances(conditions ...*DescribeInstancesConditio
 	}
 
 	requestURI := fmt.Sprintf("https://%s", CVM_HOST)
-	response, err := request.Get(CVM_SERVICE, "DescribeInstances", &request.Config{
+	response, err := request.Get(CVM_SERVICE, "DescribeInstances", &request.RequestConfig{
 		SecretId:     cs.config.SecretId,
 		SecretKey:    cs.config.SecretKey,
 		Region:       cs.config.Region,
@@ -106,9 +106,6 @@ func (cs *CvmService) DescribeInstances(conditions ...*DescribeInstancesConditio
 	if err != nil {
 		return nil, err
 	}
-
-	// json, _ := response.JSON()
-	// fmt.Println("response:", json)
 
 	var result = &DescribeInstancesRawResponse{}
 	err = response.UnmarshalJSON(result)
@@ -125,7 +122,7 @@ func (cs *CvmService) DescribeInstancesPost(conditions map[string]interface{}) (
 		CVM_SERVICE,
 		"DescribeInstances",
 		conditions,
-		&request.Config{
+		&request.RequestConfig{
 			SecretId:   cs.config.SecretId,
 			SecretKey:  cs.config.SecretKey,
 			Region:     cs.config.Region,
@@ -134,9 +131,6 @@ func (cs *CvmService) DescribeInstancesPost(conditions map[string]interface{}) (
 	if err != nil {
 		return nil, err
 	}
-
-	// json, _ := response.JSON()
-	// fmt.Println("response:", json)
 
 	var result = &DescribeInstancesRawResponse{}
 	err = response.UnmarshalJSON(result)
