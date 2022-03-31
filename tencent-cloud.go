@@ -1,10 +1,7 @@
 package tencentcloud
 
 import (
-	"fmt"
-	"os"
-
-	"github.com/go-zoox/dotenv"
+	"github.com/go-zoox/tencent-cloud/config"
 	"github.com/go-zoox/tencent-cloud/cvm"
 )
 
@@ -48,24 +45,6 @@ func New(config *TencentCloudClientConfig) *TencentCloudClient {
 	}
 }
 
-func LoadConfig(config interface{}) error {
-	currentPath, _ := os.Getwd()
-	homedirPath := os.Getenv("HOME")
-	dotenvPathsTry := []string{
-		fmt.Sprintf("%s/.env", currentPath),
-		fmt.Sprintf("%s/../.env", currentPath),
-		fmt.Sprintf("%s/.env", homedirPath),
-	}
-	dotenvPaths := []string{}
-	for _, dotenvPathTry := range dotenvPathsTry {
-		if _, err := os.Stat(dotenvPathTry); err == nil {
-			dotenvPaths = append(dotenvPaths, dotenvPathTry)
-		}
-	}
-
-	if err := dotenv.Load(config, dotenvPaths...); err != nil {
-		return err
-	}
-
-	return nil
+func LoadConfig(cfg interface{}) error {
+	return config.LoadConfig(cfg)
 }

@@ -3,19 +3,19 @@ package cvm
 import (
 	"testing"
 
-	tencentcloud "github.com/go-zoox/tencent-cloud"
+	config "github.com/go-zoox/tencent-cloud/config"
 )
 
 func TestDescribeInstances(t *testing.T) {
-	var config CvmConfig
-	if err := tencentcloud.LoadConfig(&config); err != nil {
+	var cfg CvmConfig
+	if err := config.LoadConfig(&cfg); err != nil {
 		t.Fatal(err)
 	}
 
 	client := New(&CvmConfig{
-		SecretId:  config.SecretId,
-		SecretKey: config.SecretKey,
-		Region:    config.Region,
+		SecretId:  cfg.SecretId,
+		SecretKey: cfg.SecretKey,
+		Region:    cfg.Region,
 	})
 
 	response, err := client.DescribeInstances(&DescribeInstancesConditions{
@@ -44,15 +44,15 @@ func TestDescribeInstances(t *testing.T) {
 }
 
 func TestDescribeInstancesPost(t *testing.T) {
-	var config CvmConfig
-	if err := tencentcloud.LoadConfig(&config); err != nil {
+	var cfg CvmConfig
+	if err := config.LoadConfig(&cfg); err != nil {
 		t.Fatal(err)
 	}
 
 	client := New(&CvmConfig{
-		SecretId:  config.SecretId,
-		SecretKey: config.SecretKey,
-		Region:    config.Region,
+		SecretId:  cfg.SecretId,
+		SecretKey: cfg.SecretKey,
+		Region:    cfg.Region,
 	})
 
 	response, err := client.DescribeInstancesPost(map[string]interface{}{
