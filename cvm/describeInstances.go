@@ -111,7 +111,7 @@ func (cs *CvmService) DescribeInstances(conditions ...*DescribeInstancesConditio
 	// fmt.Println("response:", json)
 
 	var result = &DescribeInstancesRawResponse{}
-	err = response.Unmarshal(result)
+	err = response.UnmarshalJSON(result)
 	if err != nil {
 		return nil, err
 	}
@@ -139,7 +139,7 @@ func (cs *CvmService) DescribeInstancesPost(conditions map[string]interface{}) (
 	// fmt.Println("response:", json)
 
 	var result = &DescribeInstancesRawResponse{}
-	err = response.Unmarshal(result)
+	err = response.UnmarshalJSON(result)
 	if err != nil {
 		return nil, err
 	}

@@ -128,7 +128,6 @@ func Sign(data *SignConfig) (*SignResult, error) {
 		fmt.Println("")
 	}
 
-	// @TODO
 	secretDate := hmac.Sha256("TC3"+data.SecretKey, date, "binary")
 	secretService := hmac.Sha256(secretDate, data.Service, "binary")
 	secretSigning := hmac.Sha256(secretService, "tc3_request", "binary")
