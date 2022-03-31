@@ -28,7 +28,6 @@ type RequestConfig struct {
 
 func Request(config *RequestConfig) (*fetch.Response, error) {
 	timestamp := time.Now().Unix()
-	requestMethod := config.RequestMethod
 	parsedRequestURI, error := url.Parse(config.RequestURI)
 	if error != nil {
 		return nil, error
@@ -60,7 +59,7 @@ func Request(config *RequestConfig) (*fetch.Response, error) {
 		Action:         config.Action,
 		Region:         config.Region,
 		RequestHost:    parsedRequestURI.Host,
-		RequestMethod:  requestMethod,
+		RequestMethod:  config.RequestMethod,
 		RequestURI:     requestPath,
 		RequestQuery:   requestQuery,
 		RequestHeaders: nil, // config.RequestHeaders,
@@ -74,7 +73,7 @@ func Request(config *RequestConfig) (*fetch.Response, error) {
 		headersString, _ := json.MarshalIndent(headers, "", "  ")
 		requestQueryString, _ := json.MarshalIndent(requestQuery, "", "  ")
 		fmt.Println("[REQUEST][START]")
-		fmt.Println("request method:", requestMethod)
+		fmt.Println("request method:", config.RequestMethod)
 		fmt.Println("request uri:", config.RequestURI)
 		fmt.Println("request query:", string(requestQueryString))
 		fmt.Println("request headers:", string(headersString))
@@ -84,7 +83,7 @@ func Request(config *RequestConfig) (*fetch.Response, error) {
 
 	f := fetch.New(&fetch.Config{
 		Url:     config.RequestURI,
-		Method:  requestMethod,
+		Method:  config.RequestMethod,
 		Headers: headers,
 		Query:   requestQuery,
 		Body:    config.RequestBody,
