@@ -19,6 +19,7 @@ type SignConfig struct {
 	SecretKey string
 	// Timestamp, unit: second
 	Timestamp int64
+	Version   string
 	//
 	Service string
 	Action  string

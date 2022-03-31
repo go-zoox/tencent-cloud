@@ -3,11 +3,13 @@ package tencentcloud
 import (
 	"github.com/go-zoox/tencent-cloud/config"
 	"github.com/go-zoox/tencent-cloud/cvm"
+	"github.com/go-zoox/tencent-cloud/lighthouse"
 )
 
 type TencentCloudClient struct {
-	Config *TencentCloudClientConfig
-	Cvm    *cvm.CvmService
+	Config     *TencentCloudClientConfig
+	Cvm        *cvm.CvmService
+	Lighthouse *lighthouse.LighthouseService
 }
 
 type TencentCloudClientConfig struct {
@@ -37,7 +39,12 @@ func New(config *TencentCloudClientConfig) *TencentCloudClient {
 	return &TencentCloudClient{
 		Config: config,
 		// @TODO
-		Cvm: cvm.New(&cvm.CvmConfig{
+		Cvm: cvm.New(&cvm.Config{
+			SecretId:  config.SecretId,
+			SecretKey: config.SecretKey,
+			Region:    config.Region,
+		}),
+		Lighthouse: lighthouse.New(&lighthouse.Config{
 			SecretId:  config.SecretId,
 			SecretKey: config.SecretKey,
 			Region:    config.Region,

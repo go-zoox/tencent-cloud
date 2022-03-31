@@ -14,6 +14,8 @@ type RequestConfig struct {
 	SecretId  string
 	SecretKey string
 	//
+	Version string
+	//
 	Service string
 	Action  string
 	Region  string
@@ -55,6 +57,7 @@ func Request(config *RequestConfig) (*fetch.Response, error) {
 		SecretId:       config.SecretId,
 		SecretKey:      config.SecretKey,
 		Timestamp:      timestamp,
+		Version:        config.Version,
 		Service:        config.Service,
 		Action:         config.Action,
 		Region:         config.Region,
@@ -125,6 +128,8 @@ func Get(service string, action string, config *RequestConfig) (*fetch.Response,
 		SecretId:  config.SecretId,
 		SecretKey: config.SecretKey,
 		//
+		Version: config.Version,
+		//
 		Service: service,
 		Action:  action,
 		Region:  config.Region,
@@ -142,6 +147,8 @@ func Post(service string, action string, data map[string]interface{}, config *Re
 	return Request(&RequestConfig{
 		SecretId:  config.SecretId,
 		SecretKey: config.SecretKey,
+		//
+		Version: config.Version,
 		//
 		Service: service,
 		Action:  action,

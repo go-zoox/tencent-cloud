@@ -18,7 +18,7 @@ func GetHeaders(config *SignConfig) (map[string]string, error) {
 		"Host":           signResult.RequestHeaders["host"],
 		"X-TC-Action":    config.Action,
 		"X-TC-Timestamp": signResult.Timestamp,
-		"X-TC-Version":   "2017-03-12",
+		"X-TC-Version":   config.Version,
 		"X-TC-Region":    config.Region,
 		"Authorization":  authorization,
 	}, nil

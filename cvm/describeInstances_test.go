@@ -7,12 +7,12 @@ import (
 )
 
 func TestDescribeInstances(t *testing.T) {
-	var cfg CvmConfig
+	var cfg Config
 	if err := config.LoadConfig(&cfg); err != nil {
 		t.Fatal(err)
 	}
 
-	client := New(&CvmConfig{
+	client := New(&Config{
 		SecretId:  cfg.SecretId,
 		SecretKey: cfg.SecretKey,
 		Region:    cfg.Region,
@@ -26,8 +26,7 @@ func TestDescribeInstances(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	// xxx, _ := json.MarshalIndent(response, "", "  ")
-	// t.Log(string(xxx))
+	t.Log("TotalCount:", response.TotalCount)
 	for _, instance := range response.InstanceSet {
 		t.Log("Uuid:", instance.Uuid)
 		t.Log("InstanceId:", instance.InstanceId)
@@ -44,12 +43,12 @@ func TestDescribeInstances(t *testing.T) {
 }
 
 func TestDescribeInstancesPost(t *testing.T) {
-	var cfg CvmConfig
+	var cfg Config
 	if err := config.LoadConfig(&cfg); err != nil {
 		t.Fatal(err)
 	}
 
-	client := New(&CvmConfig{
+	client := New(&Config{
 		SecretId:  cfg.SecretId,
 		SecretKey: cfg.SecretKey,
 		Region:    cfg.Region,
@@ -68,8 +67,7 @@ func TestDescribeInstancesPost(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	// xxx, _ := json.MarshalIndent(response, "", "  ")
-	// t.Log(string(xxx))
+	t.Log("TotalCount:", response.TotalCount)
 	for _, instance := range response.InstanceSet {
 		t.Log("Uuid:", instance.Uuid)
 		t.Log("InstanceId:", instance.InstanceId)

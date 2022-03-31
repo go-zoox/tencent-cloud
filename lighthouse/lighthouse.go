@@ -1,7 +1,7 @@
-package cvm
+package lighthouse
 
-const HOST = "cvm.tencentcloudapi.com"
-const SERVICE = "cvm"
+const HOST = "lighthouse.tencentcloudapi.com"
+const SERVICE = "lighthouse"
 
 type Config struct {
 	// *tencentcloud.TencentCloudClientConfig
@@ -10,11 +10,11 @@ type Config struct {
 	Region    string
 }
 
-type CvmService struct {
+type LighthouseService struct {
 	config *Config
 }
 
-func New(config *Config) *CvmService {
+func New(config *Config) *LighthouseService {
 	if config == nil {
 		panic("config is nil")
 	}
@@ -31,7 +31,7 @@ func New(config *Config) *CvmService {
 		panic("config.Region is empty")
 	}
 
-	return &CvmService{
+	return &LighthouseService{
 		config: config,
 	}
 }

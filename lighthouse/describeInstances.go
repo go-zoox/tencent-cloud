@@ -1,4 +1,4 @@
-package cvm
+package lighthouse
 
 import (
 	"fmt"
@@ -15,6 +15,9 @@ type DescribeInstancesResponse struct {
 
 	RequestId  string `json:"RequestId"`
 	TotalCount int    `json:"TotalCount"`
+
+	// @TODO
+	Raw []byte
 }
 
 type Instance struct {
@@ -54,9 +57,9 @@ type Instance struct {
 		ProjectId int    `json:"ProjectId"`
 		Zone      string `json:"Zone"`
 	}
-	PlatformProjectId  string   `json:"PlatformProjectId"`
-	PrivateIpAddresses []string `json:"PrivateIpAddresses"`
-	PublicIpAddresses  []string `json:"PublicIpAddresses"`
+	PlatformProjectId string   `json:"PlatformProjectId"`
+	PrivateAddresses  []string `json:"PrivateAddresses"`
+	PublicAddresses   []string `json:"PublicAddresses"`
 	// RdmaIpAddresses 				[]string `json:"RdmaIpAddresses"`
 	// RenewFlag 					string `json:"RenewFlag"`
 	RestrictState    string   `json:"RestrictState"`
@@ -85,7 +88,7 @@ type DescribeInstancesConditions struct {
 	Limit  int
 }
 
-func (cs *CvmService) DescribeInstances(conditions ...*DescribeInstancesConditions) (*DescribeInstancesResponse, error) {
+func (cs *LighthouseService) DescribeInstances(conditions ...*DescribeInstancesConditions) (*DescribeInstancesResponse, error) {
 	var requestQuery map[string]string
 	if len(conditions) > 0 {
 		conditionsX := conditions[0]
@@ -99,7 +102,7 @@ func (cs *CvmService) DescribeInstances(conditions ...*DescribeInstancesConditio
 	response, err := request.Get(SERVICE, "DescribeInstances", &request.RequestConfig{
 		SecretId:     cs.config.SecretId,
 		SecretKey:    cs.config.SecretKey,
-		Version:      "2017-03-12",
+		Version:      "2020-03-24",
 		Region:       cs.config.Region,
 		RequestURI:   requestURI,
 		RequestQuery: requestQuery,
@@ -110,6 +113,8 @@ func (cs *CvmService) DescribeInstances(conditions ...*DescribeInstancesConditio
 
 	var result = &DescribeInstancesRawResponse{}
 	err = response.UnmarshalJSON(result)
+	// @TODO
+	result.Response.Raw = response.Body
 	if err != nil {
 		return nil, err
 	}
@@ -117,7 +122,7 @@ func (cs *CvmService) DescribeInstances(conditions ...*DescribeInstancesConditio
 	return &result.Response, nil
 }
 
-func (cs *CvmService) DescribeInstancesPost(conditions map[string]interface{}) (*DescribeInstancesResponse, error) {
+func (cs *LighthouseService) DescribeInstancesPost(conditions map[string]interface{}) (*DescribeInstancesResponse, error) {
 	requestURI := fmt.Sprintf("https://%s", HOST)
 	response, err := request.Post(
 		SERVICE,
@@ -126,7 +131,7 @@ func (cs *CvmService) DescribeInstancesPost(conditions map[string]interface{}) (
 		&request.RequestConfig{
 			SecretId:   cs.config.SecretId,
 			SecretKey:  cs.config.SecretKey,
-			Version:    "2017-03-12",
+			Version:    "2020-03-24",
 			Region:     cs.config.Region,
 			RequestURI: requestURI,
 		})

@@ -7,6 +7,7 @@ func TestGetHeaders(t *testing.T) {
 		SecretId:       "aaa",
 		SecretKey:      "bbb",
 		Timestamp:      1648653655,
+		Version:        "2017-03-12",
 		Service:        "cvm",
 		Action:         "DescribeInstances",
 		Region:         "ap-shanghai",
@@ -35,8 +36,8 @@ func TestGetHeaders(t *testing.T) {
 	if headers["X-TC-Timestamp"] != "1648653655" {
 		t.Errorf("Expected X-TC-Timestamp %s, got %s", "1648653655", headers["X-TC-Timestamp"])
 	}
-	if headers["X-TC-Version"] != "2017-03-12" {
-		t.Errorf("Expected X-TC-Version %s, got %s", "2017-03-12", headers["X-TC-Version"])
+	if headers["X-TC-Version"] != config.Version {
+		t.Errorf("Expected X-TC-Version %s, got %s", config.Version, headers["X-TC-Version"])
 	}
 	if headers["X-TC-Region"] != "ap-shanghai" {
 		t.Errorf("Expected X-TC-Region %s, got %s", "ap-shanghai", headers["X-TC-Region"])
